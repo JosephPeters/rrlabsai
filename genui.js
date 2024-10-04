@@ -4,6 +4,7 @@
     tailwindLink.rel = 'stylesheet';
     tailwindLink.href = 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css';
     document.head.appendChild(tailwindLink);
+    
   
     // Create chatbot button and popup
     var chatbotButton = document.createElement("button");
