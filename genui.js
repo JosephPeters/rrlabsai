@@ -102,13 +102,13 @@
     var welcomeDiv = document.createElement("div");
     welcomeDiv.className = "text-center mt-8 mb-4";
     var welcomeHeader = document.createElement("h2");
-    welcomeHeader.textContent = "Welcome";
-    welcomeHeader.className = "text-2xl font-bold text-gray-800";
+    welcomeHeader.textContent = "AI Enabled Journeys";
+    welcomeHeader.className = "text-2xl font-bold mt-12 text-gray-800";
     welcomeDiv.appendChild(welcomeHeader);
 
     // Create white background div for chat input
     var inputDiv = document.createElement("div");
-    inputDiv.className = "bg-white w-1/2 p-4 mt-16 rounded-full mx-auto"; // Added mx-auto
+    inputDiv.className = "bg-white w-1/2 p-4 mt-12 rounded-full mx-auto"; // Added mx-auto
     inputDiv.id = "chat-input-div";
 
     var input = document.createElement("input");
