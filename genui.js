@@ -15,7 +15,7 @@
     // Create new full-screen container (removed background color)
     var chatbotContainer = document.createElement("div");
     chatbotContainer.className = "fixed inset-0 z-50 hidden transform translate-y-full transition-transform duration-300 ease-in-out";
-    chatbotContainer.id = "chat-container";
+    chatbotContainer.id = "chat-main-container";
 
     // Create top transparent div with close button
     var topDiv = document.createElement("div");
