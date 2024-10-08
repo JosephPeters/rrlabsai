@@ -8,8 +8,8 @@
 
     // Create chatbot button (unchanged)
     var chatbotButton = document.createElement("button");
-    chatbotButton.innerHTML = "Chat with AI";
-    chatbotButton.className = "fixed bottom-5 right-5 bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg z-50";
+    chatbotButton.innerHTML = "Begin";
+    chatbotButton.className = "fixed bottom-5 right-5 w-1/3 bg-black text-white py-2 px-4 rounded-lg shadow-lg z-50";
     chatbotButton.id = "chat-button";
 
     // Create new full-screen container (removed background color)
@@ -37,18 +37,53 @@
       }
       #chat-content {
         height: calc(100vh - 5rem);
+        position: relative;
       }
+       
       #ai-message > div {
-        background-color: rgb(255 255 255/var(--tw-bg-opacity));
-        border-radius: 1.5rem;
+      background: 
+        linear-gradient(#fff 0 0) padding-box, /*this is your grey background*/
+        linear-gradient(to right, #7ab2f7, #a8ade1, #fbac84) border-box;
+        border-radius: 1rem;
         --tw-shadow: 0 20px 25px -5px #0000001a,0 8px 10px -6px #0000001a;
         --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);
         box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+        border: 2px solid transparent;
         padding: 1.5rem 2rem;
-        margin-bottom: 2rem;
+        margin-bottom: 4rem;
+        margin-top: 4rem;
+        color: #6b7280;
+        position: relative;
+        transform-style: preserve-3d;
+      }
+        #ai-message > div::before {
+  content: "";
+  position: absolute; 
+  inset: 0;
+  background: linear-gradient(to right, #7ab2f7, #a8ade1, #fbac84) border-box;
+  filter: blur(21px);
+  transform: translate3d(0,0,-1px);
+  border-radius: inherit;
+  pointer-events: none;
+}
+      #ai-message {
+        h3 {
+          color: #000;
+        }
+        h2 {
+          color: #000;
+        }
+        p {
+          --tw-text-opacity: 1;
+          color: #6b7280;
+        }
+        button {
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+        }
       }
     `;
-    
+
     document.head.appendChild(style);
 
     var closeButton = document.createElement("button");
@@ -62,6 +97,14 @@
     var chatContentDiv = document.createElement("div");
     chatContentDiv.className = "w-full flex-1 flex flex-col bg-gray-100 overflow-y-auto";
     chatContentDiv.id = "chat-content";
+
+    // Create welcome message div
+    var welcomeDiv = document.createElement("div");
+    welcomeDiv.className = "text-center mt-8 mb-4";
+    var welcomeHeader = document.createElement("h2");
+    welcomeHeader.textContent = "Welcome";
+    welcomeHeader.className = "text-2xl font-bold text-gray-800";
+    welcomeDiv.appendChild(welcomeHeader);
 
     // Create white background div for chat input
     var inputDiv = document.createElement("div");
@@ -78,14 +121,15 @@
 
     // Create div for chat messages
     var messageContainer = document.createElement("div");
-    messageContainer.className = "flex-1 p-4 w-3/4 mx-auto";
+    messageContainer.className = "flex-1 p-4 w-1/3 max-w-[580px] mx-auto";
     messageContainer.id = "chat-messages";
 
     // Assemble the container
+    chatContentDiv.appendChild(welcomeDiv);
     chatContentDiv.appendChild(inputDiv);
     chatContentDiv.appendChild(messageContainer);
 
-
+    // Append elements to chatbotContainer
     chatbotContainer.appendChild(topDiv);
     chatbotContainer.appendChild(chatContentDiv);
 
@@ -116,31 +160,52 @@
         var message = input.value;
         if (message.trim() === "") return;
 
-        // Add user message to chat
-        //var userMessage = document.createElement("div");
-        //userMessage.innerHTML = "You: " + message;
-        // userMessage.className = "mb-2 p-2 bg-gray-200 rounded"; // User message styling
-        //messageContainer.appendChild(userMessage);
-
-        // Clear input immediately after sending
         input.value = "";
 
-        // Call AI backend
-        const response = await fetch("https://hook.us2.make.com/f4qi16fou5mluek1p4hl1bw989tnddz0", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ question: message }),
-        });
+        // Clear previous AI response
+        var previousAiMessage = document.getElementById("ai-message");
+        if (previousAiMessage) {
+            messageContainer.removeChild(previousAiMessage);
+        }
 
-        const data = await response.json();
+        // Add loading indicator
+        var loadingIndicator = document.createElement("div");
+        loadingIndicator.innerHTML = "Loading...";
+        loadingIndicator.className = "text-gray-500 italic mb-2";
+        messageContainer.appendChild(loadingIndicator);
 
-        // Display AI response
-        var aiMessage = document.createElement("div");
-        aiMessage.innerHTML = data.text;// AI message styling
-        aiMessage.id = "ai-message";
-        messageContainer.appendChild(aiMessage);
+        // Scroll to the bottom of the message container
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+
+        try {
+            const response = await fetch("https://hook.us2.make.com/f4qi16fou5mluek1p4hl1bw989tnddz0", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ question: message }),
+            });
+
+            const data = await response.json();
+
+            // Remove loading indicator
+            messageContainer.removeChild(loadingIndicator);
+
+            // Display AI response
+            var aiMessage = document.createElement("div");
+            aiMessage.innerHTML = data.text;
+            aiMessage.id = "ai-message";
+            messageContainer.appendChild(aiMessage);
+        } catch (error) {
+            // Remove loading indicator
+            messageContainer.removeChild(loadingIndicator);
+
+            // Display error message
+            var errorMessage = document.createElement("div");
+            errorMessage.innerHTML = "An error occurred. Please try again.";
+            errorMessage.className = "text-red-500 mb-2";
+            messageContainer.appendChild(errorMessage);
+        }
 
         // Scroll to the bottom of the message container
         messageContainer.scrollTop = messageContainer.scrollHeight;
