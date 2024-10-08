@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Plus - Member Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1 1 300px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HealthCare Plus</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Claims</a></li>
+                <li><a href="#">Benefits</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="card">
+            <h2>Welcome, John Doe</h2>
+            <p>Member ID: 123456789</p>
+            <p>Plan: Gold Family Plan</p>
+        </div>
+        <div class="card">
+            <h2>Quick Actions</h2>
+            <ul>
+                <li>View ID Card</li>
+                <li>Find a Doctor</li>
+                <li>Submit a Claim</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2>Recent Claims</h2>
+            <p>No recent claims to display.</p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 HealthCare Plus. All rights reserved.</p>
+    </footer>
+    <script src="genui.js"></script>
+</body>
+</html>
